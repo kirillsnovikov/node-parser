@@ -1,14 +1,16 @@
 import express, { Application, Request, Response, NextFunction } from "express";
+import { PORT } from "./constants";
+import { startParser } from "./parser/parser";
 
 // Boot express
 const app: Application = express();
-const port = 5000;
-const baseURL = "https://chess-samara.ru/library/problems/";
 
 // Application routing
-app.use("/", (req: Request, res: Response, next: NextFunction) => {
+app.use("/parse", (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.path, "req");
+  startParser();
   res.status(200).send("SUccess");
 });
 
 // Start server
-app.listen(port, () => console.log(`Server is listening on port ${port}!`));
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}!`));
