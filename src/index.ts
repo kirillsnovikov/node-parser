@@ -6,11 +6,20 @@ import { startParser } from "./parser/parser";
 const app: Application = express();
 
 // Application routing
-app.use("/parse", (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.path, "req");
-  startParser();
-  res.status(200).send("SUccess");
-});
+app.use(
+  "/parse",
+  (
+    req: Request<{}, {}, {}, { from: string; to: string }>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const {
+      query: { from, to },
+    } = req;
+    startParser(Number(from), Number(to));
+    res.status(200).send("SUccess");
+  }
+);
 
 // Start server
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}!`));

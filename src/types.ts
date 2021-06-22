@@ -1,1 +1,2 @@
-export type HandlePage = (url: string) => void;
+export type Figures = string[];
+export type PageResult = Figures | undefined;

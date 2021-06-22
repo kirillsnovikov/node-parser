@@ -1,4 +1,4 @@
-import puppeteer, { Browser } from "puppeteer";
+import puppeteer, { Browser, Puppeteer } from "puppeteer";
 
 export const LAUNCH_PUPPETEER_OPTS = {
   args: [
@@ -11,7 +11,7 @@ export const LAUNCH_PUPPETEER_OPTS = {
   ],
 };
 
-export class PuppeteerHandler {
+class PuppeteerHandler {
   browser: null | Browser;
   constructor() {
     this.browser = null;
@@ -33,9 +33,13 @@ export class PuppeteerHandler {
         waitUntil: "networkidle2",
         timeout: 3000000,
       });
-      return await page?.content();
+      const content = await page?.content();
+      await page?.close();
+      return content;
     } catch (err) {
       throw err;
     }
   }
 }
+
+export default new PuppeteerHandler();

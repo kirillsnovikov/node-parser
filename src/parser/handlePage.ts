@@ -1,19 +1,19 @@
 import cheerio, { CheerioAPI } from "cheerio";
 import { CELLS_ON_BOARD } from "../constants";
-import { HandlePage } from "../types";
+import { Figures, PageResult } from "../types";
 import { getHtml } from "./getHtml";
 
-export const handlePage: HandlePage = async (url: string) => {
+export const handlePage = async (url: string): Promise<PageResult> => {
   const html = await getHtml(url);
   if (!html) {
     console.log(url, "Html undefined");
     return;
   }
   const $ = cheerio.load(html);
-  console.log(getFigures($));
+  return getFigures($);
 };
 
-const getFigures = ($: CheerioAPI): string[] => {
+const getFigures = ($: CheerioAPI): Figures => {
   let res = [];
   for (let cell of CELLS_ON_BOARD) {
     const node = $(`#_piece_${cell}`);
